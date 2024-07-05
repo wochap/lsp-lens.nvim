@@ -168,13 +168,14 @@ local function display_lines(bufnr, query_results)
     if not (display_str == "") then
       normalize_rangeStart_character(bufnr, query.rangeStart)
 
-      local vline = { { string.rep(" ", query.rangeStart.character) .. display_str, "LspLens" } }
+      local vline = { display_str, "LspLens" }
       table.insert(virt_lines, vline)
 
       if query.rangeStart.line < vim.api.nvim_buf_line_count(bufnr) then
         vim.api.nvim_buf_set_extmark(bufnr, ns_id, query.rangeStart.line, 0, {
-          virt_lines = virt_lines,
-          virt_lines_above = true,
+          virt_text = virt_lines,
+          virt_text_pos = "eol",
+          hl_mode = "combine",
         })
       end
     end
@@ -360,3 +361,4 @@ function lsplens:procedure()
 end
 
 return lsplens
+
